@@ -1,4 +1,4 @@
-# GodotDualSense (GDExtension) 🎮
+# GodotDualsense (GDExtension) 🎮
 
 A **GDExtension** for **Godot 4.x** that provides native support for the Sony DualSense controller via HID. This extension bypasses standard SDL limitations to unlock advanced features like Adaptive Triggers, Haptic Feedback, and direct Lightbar control.
 
