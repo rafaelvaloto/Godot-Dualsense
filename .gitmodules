@@ -1,0 +1,7 @@
+[submodule "src/GamepadCore"]
+	path = src/GamepadCore
+	url = https://github.com/rafaelvaloto/GamepadCore_.git
+[submodule "godot-cpp"]
+	path = godot-cpp
+	url = https://github.com/godotengine/godot-cpp.git
+	branch = 4.5

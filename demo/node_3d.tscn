@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://bx7k6wka5el6q"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="DualSenseManager" type="DualSenseManager" parent="."]
