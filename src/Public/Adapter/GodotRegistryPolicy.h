@@ -8,7 +8,7 @@ struct FGodotRegistryPolicy
 {
     using EngineIdType = int32_t;
 
-    // Hasher necessário para o TBasicDeviceRegistry usar IDs como chave em Mapas
+    // Hasher required for TBasicDeviceRegistry to use IDs as keys in Maps
     struct Hasher
     {
         std::size_t operator()(const EngineIdType& Id) const
@@ -17,19 +17,18 @@ struct FGodotRegistryPolicy
         }
     };
 
-    // Contador simples para gerar novos IDs únicos
     static inline EngineIdType NextDeviceId = 0;
 
-    // Função chamada pela biblioteca quando um novo controle físico é encontrado
+    // Function called by the library when a new physical control is found.
     EngineIdType AllocEngineDevice()
     {
         return ++NextDeviceId;
     }
 
-    // Chamado quando a conexão é confirmada
+    // Called when the connection is confirmed.
     void DispatchNewGamepad(EngineIdType GamepadId)
     {
-        godot::UtilityFunctions::print("[GamepadCore] DualSense Conectado! ID: ", GamepadId);
+        godot::UtilityFunctions::print("[GamepadCore] DualSense Is Connected! ID: ", GamepadId);
         DualSenseManager::get_singleton()->test_lightbar();
         DualSenseManager::get_singleton()->test_rumble();
         DualSenseManager::get_singleton()->test_weapon();
@@ -37,10 +36,10 @@ struct FGodotRegistryPolicy
         // DualSenseManager::get_singleton()->emit_signal("device_connected", GamepadId);
     }
 
-    // Chamado quando o controle é desconectado
+    // Called when the controller is disconnected.
     void DisconnectDevice(EngineIdType GamepadId)
     {
-        godot::UtilityFunctions::print("[GamepadCore] DualSense Desconectado! ID: ", GamepadId);
+        godot::UtilityFunctions::print("[GamepadCore] DualSense Disconnected! ID: ", GamepadId);
         // DualSenseManager::get_singleton()->emit_signal("device_disconnected", GamepadId);
     }
 };
