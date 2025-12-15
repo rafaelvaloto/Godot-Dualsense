@@ -65,7 +65,7 @@ func _on_device_disconnected(device_id: int):
     print("DualSense Disconnected! ID: %d" % device_id)
 ```
 
-🤝 Contributing
+## 🤝 Contributing
 I need your help! I have built the "hard part": the GDExtension architecture, the C++ build system, and the raw HID communication layer (GamepadCore).
 
 If you want native DualSense support in Godot, please consider contributing to map the missing features instead of starting from scratch.
@@ -78,12 +78,12 @@ Expose new methods in DualSenseManager.cpp.
 
 Submit a Pull Request.
 
-🔗 Architecture
+## 🔗 Architecture
 GodotDualSense: Handles the Godot GDExtension wrapping, Node management, and Signals.
 
-GamepadCore: The backend C++ library that handles raw HID reports and OS-level device discovery.
+[GamepadCore](https://github.com/rafaelvaloto/GamepadCore_): The backend C++ library that handles raw HID reports and OS-level device discovery.
 
-📄 License
+## 📄 License
 MIT License
 
 ## ⚖️ Disclaimer and Trademarks
