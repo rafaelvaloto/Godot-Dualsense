@@ -24,8 +24,6 @@ This project depends on `godot-cpp` and `GamepadCore`. You must clone recursivel
 git clone --recursive https://github.com/rafaelvaloto/Godot-Dualsense.git
 
 ```
-2. Compile
-   You can use SCons or CMake (if using CLion/Rider).
 
 Using SCons:
 ```bash
