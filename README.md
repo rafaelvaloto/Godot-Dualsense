@@ -21,7 +21,7 @@ A **GDExtension** for **Godot 4.x** that provides native support for the Sony Du
 This project depends on `godot-cpp` and `GamepadCore`. You must clone recursively:
 ```bash
 
-git clone --recursive [https://github.com/SEU_USUARIO/GodotDualSense.git](https://github.com/SEU_USUARIO/GodotDualSense.git)
+git clone --recursive https://github.com/rafaelvaloto/Godot-Dualsense.git
 
 ```
 2. Compile
