@@ -1,9 +1,12 @@
 # GodotDualsense (GDExtension) 🎮
 
-A **GDExtension** for **Godot 4.x** that provides native support for the Sony DualSense controller via HID. This extension bypasses standard SDL limitations to unlock advanced features like Adaptive Triggers, Haptic Feedback, and direct Lightbar control.
+A **GDExtension** for **Godot 4.x** that provides native support for the Sony DualSense controller via HID. This extension is built on top of **[GamepadCore](https://github.com/rafaelvaloto/GamepadCore_)**, a cross-platform C++ library that handles raw HID communication and device discovery for DualSense controllers.
 
 > ⚠️ **Status: Work in Progress / Proof of Concept**
 > This project is currently a functional foundation. Basic communication (Rumble, Lightbar, Simple Triggers) is implemented and stable, but full feature coverage (Touchpad, Gyro) needs community contribution.
+
+> 💡 **Looking for a complete implementation?**
+> Check out **[Unreal-Dualsense](https://github.com/rafaelvaloto/Unreal-Dualsense)** for a full-featured implementation using the same GamepadCore library.
 
 ## ✨ Features Implemented
 - [x] **Lightbar Control:** Set RGB colors programmatically per controller.
@@ -36,50 +39,59 @@ Using CMake: Open the project in CLion/Rider and build the godot_dualsense targe
 
 ## 💻 Usage (GDScript)
 
-Since `DualSenseManager` handles the discovery loop, you just need to listen to signals.
+The `DualSenseManager` handles device discovery automatically. You can extend it or use static test methods:
 
 ```gdscript
-extends Node
+extends DualSenseManager
 
-# Reference to the manager node in your scene
-@onready var dualsense_manager = $DualSenseManager
-
-func _ready():
-    # Listen for hot-plug events
-    dualsense_manager.device_connected.connect(_on_device_connected)
-    dualsense_manager.device_disconnected.connect(_on_device_disconnected)
-
-func _on_device_connected(device_id: int):
-    print("DualSense Connected! ID: %d" % device_id)
+func device_connected(device_id: int):
+    print("DualSense Connected! ID: ", device_id)
     
-    # 1. Change Lightbar to Cyan
-    dualsense_manager.set_lightbar_color(device_id, Color.CYAN)
-    
-    # 2. Set Adaptive Trigger (Example: Weapon Recoil on Right Trigger)
-    # Parameters: device_id, "Right"/"Left", start_pos, end_pos, force
-    dualsense_manager.set_trigger_weapon(device_id, "Right", 0, 8, 5)
+    # Test methods available in DualSenseManager
+    test_lightbar()   # Sets lightbar to red
+    test_weapon()     # Tests weapon effect on triggers
+    test_rumble()     # Tests vibration
 
-func _on_device_disconnected(device_id: int):
-    print("DualSense Disconnected! ID: %d" % device_id)
+func device_disconnected(device_id: int):
+    print("DualSense Disconnected: ", device_id)
 ```
 
+**Note:** The current implementation provides basic test methods. For production use, you'll need to extend the C++ API to expose more granular control over GamepadCore features (see Contributing section).
+
 ## 🤝 Contributing
-I need your help! I have built the "hard part": the GDExtension architecture, the C++ build system, and the raw HID communication layer (GamepadCore).
+This project needs your help! The foundation is complete: the GDExtension architecture, C++ build system, and **GamepadCore** integration are all working.
 
-If you want native DualSense support in Godot, please consider contributing to map the missing features instead of starting from scratch.
+**GamepadCore** does the heavy lifting—it handles raw HID reports and OS-level device discovery. What's needed now is exposing more of GamepadCore's features through the GDExtension API.
 
-Fork the repository.
+**How to contribute:**
 
-Check the src/GamepadCore submodule for HID implementation details.
+1. Fork the repository.
+2. Study the **[GamepadCore](https://github.com/rafaelvaloto/GamepadCore_)** submodule to understand the available HID features.
+3. Expose new methods in `DualSenseManager.cpp` that wrap GamepadCore functionality.
+4. Submit a Pull Request.
 
-Expose new methods in DualSenseManager.cpp.
-
-Submit a Pull Request.
+If you want native DualSense support in Godot, please contribute to mapping the missing features instead of starting from scratch. For reference, see **[Unreal-Dualsense](https://github.com/rafaelvaloto/Unreal-Dualsense)** which uses the same GamepadCore library with more complete feature exposure.
 
 ## 🔗 Architecture
-GodotDualSense: Handles the Godot GDExtension wrapping, Node management, and Signals.
 
-[GamepadCore](https://github.com/rafaelvaloto/GamepadCore_): The backend C++ library that handles raw HID reports and OS-level device discovery.
+This project consists of two main components:
+
+### **GamepadCore** (The Foundation) 🎯
+**[GamepadCore](https://github.com/rafaelvaloto/GamepadCore_)** is the backend C++ library that powers this extension. It handles:
+- Raw HID report parsing and generation
+- OS-level device discovery (Windows, with Linux/macOS support planned)
+- Direct communication with DualSense hardware
+- Low-level trigger effects, haptics, and lightbar control
+
+GamepadCore is designed to be engine-agnostic and can be integrated into any game engine or application. It's already used in **[Unreal-Dualsense](https://github.com/rafaelvaloto/Unreal-Dualsense)**.
+
+### **GodotDualsense** (The Wrapper)
+This GDExtension wraps GamepadCore for use in Godot 4.x. It provides:
+- Node-based architecture for easy integration
+- Signal-based device connection/disconnection events
+- Godot-specific bindings and memory management
+
+**In short:** GamepadCore does the hard work of talking to the controller, while GodotDualsense makes it accessible from GDScript.
 
 ## 📄 License
 MIT License
